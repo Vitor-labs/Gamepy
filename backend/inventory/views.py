@@ -11,19 +11,6 @@ from inventory.serializer import GameSerializer
 from inventory.models import Game
 
 
-def home(request:HttpRequest)->HttpResponse:
-    """
-    Home page endpoint
-
-    Args:
-        request (HttpRequest): request from frontend
-
-    Returns:
-        HttpResponse: renderized response of home.html
-    """
-    games = Game.objects.all()
-    return render(request, 'home.html', {'games':games})
-
 # TESTED - OK
 class GameViewSet(ModelViewSet):
     """
