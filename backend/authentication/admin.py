@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import User
+from .models import CustomUser
 
 
 class UserAdmin(admin.ModelAdmin):
@@ -8,4 +8,4 @@ class UserAdmin(admin.ModelAdmin):
     list_display = ['username', 'email', 'password', 'is_staff', 'created_at', 'is_verified']
 
 
-admin.site.register(User, UserAdmin)
+admin.site.register(CustomUser, UserAdmin)

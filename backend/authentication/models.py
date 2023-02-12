@@ -60,11 +60,7 @@ class UserManager(BaseUserManager):
         return user
 
 
-AUTH_PROVIDERS = {'facebook': 'facebook', 'google': 'google',
-                  'twitter': 'twitter', 'email': 'email'}
-
-
-class User(AbstractBaseUser, PermissionsMixin):
+class CustomUser(AbstractBaseUser, PermissionsMixin):
     """Class to model users instances in database"""
     username = models.CharField(max_length=255, unique=True, db_index=True)
     email = models.EmailField(max_length=255, unique=True, db_index=True)
@@ -77,9 +73,12 @@ class User(AbstractBaseUser, PermissionsMixin):
     updated_at = models.DateTimeField(auto_now=True)
 
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['username', 'email']
+    REQUIRED_FIELDS = ['username']
 
     objects = UserManager()
+
+    class Meta:
+        db_table = 'Users'
 
     def tokens(self):
         """Tokes for auth api. Access and Refresh"""

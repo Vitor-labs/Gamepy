@@ -11,14 +11,14 @@ from rest_framework import serializers
 from rest_framework.exceptions import AuthenticationFailed
 from rest_framework_simplejwt.tokens import RefreshToken, TokenError
 
-from .models import User
+from .models import CustomUser
 
 
 class UserSerializer(serializers.ModelSerializer):
-    """User model data serializer"""
+    """CustomUser model data serializer"""
     class Meta:
-        """User model metadata"""
-        model = User
+        """CustomUser model metadata"""
+        model = CustomUser
         fields = '__all__'
 
 
@@ -27,8 +27,8 @@ class RegisterSerializer(serializers.ModelSerializer):
     password = serializers.CharField(max_length=64, min_length=8, write_only=True)
 
     class Meta:
-        """User model metadata"""
-        model = User
+        """CustomUser model metadata"""
+        model = CustomUser
         fields = ['email', 'username', 'password']
 
     def validate(self, attrs:Dict)->Dict:
@@ -66,7 +66,7 @@ class RegisterSerializer(serializers.ModelSerializer):
         return attrs
 
     def create(self, validated_data):
-        return User.objects.create_user(**validated_data)
+        return CustomUser.objects.create_user(**validated_data)
 
 
 class EmailVerificationSerializer(serializers.ModelSerializer):
@@ -74,8 +74,8 @@ class EmailVerificationSerializer(serializers.ModelSerializer):
     token = serializers.CharField(max_length=555)
 
     class Meta:
-        """User model metadata"""
-        model = User
+        """CustomUser model metadata"""
+        model = CustomUser
         fields = ['token']
 
 
@@ -88,8 +88,8 @@ class LoginSerializer(serializers.ModelSerializer):
     tokens = serializers.SerializerMethodField() # read-only
     
     class Meta:
-        """User model metadata"""
-        model = User
+        """CustomUser model metadata"""
+        model = CustomUser
         fields = ['email', 'password', 'username', 'tokens']
 
     def get_tokens(self, obj:Dict)->Dict:
@@ -102,7 +102,7 @@ class LoginSerializer(serializers.ModelSerializer):
         Returns:
             Dict: dictionary with both tokes
         """
-        user = User.objects.get(email=obj['email'])
+        user = CustomUser.objects.get(email=obj['email'])
 
         return {
             'refresh': user.tokens()['refresh'],
@@ -150,7 +150,7 @@ class ResetPasswordEmailRequestSerializer(serializers.Serializer):
     redirect_url = serializers.CharField(max_length=500, required=False)
 
     class Meta:
-        """User model metadata"""
+        """CustomUser model metadata"""
         fields = ['email']
 
 
@@ -161,7 +161,7 @@ class SetNewPasswordSerializer(serializers.Serializer):
     uidb64 = serializers.CharField(min_length=1, write_only=True)
 
     class Meta:
-        """User model metadata"""
+        """CustomUser model metadata"""
         fields = ['password', 'token', 'uidb64']
 
     def validate(self, attrs:Dict)->Dict:
@@ -185,7 +185,7 @@ class SetNewPasswordSerializer(serializers.Serializer):
             uidb64 = attrs.get('uidb64')
 
             _id = force_str(urlsafe_base64_decode(uidb64))
-            user = User.objects.get(id=_id)
+            user = CustomUser.objects.get(id=_id)
 
             if not PasswordResetTokenGenerator().check_token(user, token):
                 raise AuthenticationFailed('The reset link is invalid', 401)

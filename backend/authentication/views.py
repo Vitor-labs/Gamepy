@@ -6,7 +6,7 @@ from django.contrib.sites.shortcuts import get_current_site
 from django.urls import reverse
 from django.conf import settings
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
-from django.utils.encoding import smart_str, smart_bytes, DjangoUnicodeDecodeError
+from django.utils.encoding import smart_str, DjangoUnicodeDecodeError
 from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
 from django.http import HttpResponsePermanentRedirect
 
@@ -18,7 +18,7 @@ from .serializers import (
     RegisterSerializer, SetNewPasswordSerializer,
     ResetPasswordEmailRequestSerializer, EmailVerificationSerializer,
     LoginSerializer, LogoutSerializer, UserSerializer )
-from .models import User
+from .models import CustomUser
 from .renderers import UserRenderer
 from .utils import Utils
 
@@ -32,7 +32,7 @@ class UserViewSet(viewsets.ModelViewSet):
     """
     API endpoint that allows users to be viewed or edited.
     """
-    queryset = User.objects.all()
+    queryset = CustomUser.objects.all()
     serializer_class = UserSerializer
     permission_classes = [permissions.IsAuthenticated]
     
@@ -55,7 +55,7 @@ class RegisterView(generics.GenericAPIView):
 
             user_data = serializer.data
 
-            user = User.objects.get(email=user_data['email'])
+            user = CustomUser.objects.get(email=user_data['email'])
             refresh = RefreshToken.for_user(user)
             current_site = get_current_site(request)
             relative_link = reverse('email-verification')
@@ -90,7 +90,7 @@ class VerifyEmail(views.APIView):
         token = request.GET.get('token')
         try:
             data = jwt.decode(token, settings.SECRET_KEY, algorithms=['HS256'])
-            user = User.objects.get(pk=data['id'])
+            user = CustomUser.objects.get(pk=data['id'])
             user.is_verified = True
             user.save()
 
@@ -118,7 +118,7 @@ class LoginAPIView(generics.GenericAPIView):
         """POST Method"""
         serializer = self.serializer_class(data=request.data)
         if serializer.is_valid():
-            user = User.objects.get(email=serializer.data['email'])
+            user = CustomUser.objects.get(email=serializer.data['email'])
             if user.is_verified:
                 refresh = RefreshToken.for_user(user)
                 return Response({'refresh': str(refresh.access_token),
@@ -143,8 +143,8 @@ class RequestPasswordResetEmail(generics.GenericAPIView):
 
         email = request.data.get('email', '')
 
-        if User.objects.filter(email=email).exists():
-            user = User.objects.get(email=email)
+        if CustomUser.objects.filter(email=email).exists():
+            user = CustomUser.objects.get(email=email)
             uidb64 = urlsafe_base64_encode(user.id)
             token = PasswordResetTokenGenerator().make_token(user)
 
@@ -181,7 +181,7 @@ class PasswordTokenCheckAPI(generics.GenericAPIView):
 
         try:
             _id = smart_str(urlsafe_base64_decode(uidb64))
-            user = User.objects.get(id=_id)
+            user = CustomUser.objects.get(id=_id)
 
             if not PasswordResetTokenGenerator().check_token(user, token):
                 if len(redirect_url) > 3:
