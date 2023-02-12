@@ -30,7 +30,6 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -45,8 +44,11 @@ INSTALLED_APPS = [
     'corsheaders',
     'crispy_forms',
 
-    'inventory'
+    'inventory',
+    'authentication',
 ]
+
+AUTH_USER_MODEL = 'authentication.CustomUser'
 
 CRISPY_TEMPLATE_PACK = 'uni_form'
 CORS_ORIGIN_ALLOW_ALL = True
