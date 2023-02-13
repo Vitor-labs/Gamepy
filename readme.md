@@ -14,3 +14,11 @@
 - [*x*] Deverá ser documentado no [README.md](./README.md) como executar/compilar/empacotar o projeto e quais os endpoints solicitados nos requisitos acima. Para esse fim podem ser utilizadas ferramentas de containerização e automatização de builds.
 - [*x*] Utilizar o banco de dados Postgres.
 - [*x*] Para CRUD das entidades no banco de dados, utilizar preferencialmente migrations.
+
+----
+
+## Tech-Stack:
+
+- **Front-end:** React-ts, TailwindCSS, axios, styled-components
+
+- **Back-end:** Django, DjangoRestFramework, DjangoRestFramework-simple_jwt, PostgresSQL, 
