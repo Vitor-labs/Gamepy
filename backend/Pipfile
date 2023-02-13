@@ -9,6 +9,7 @@ djangorestframework = "*"
 django-cors-headers = "*"
 django-crispy-forms = "*"
 djangorestframework-simplejwt = "*"
+psycopg2 = "*"
 
 [dev-packages]
 faker = "*"
