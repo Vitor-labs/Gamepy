@@ -1,0 +1,44 @@
+[
+    {
+        "model": "inventory.Game",
+        "ok": 1,
+        "fields": {
+            "name": "Super Mario Odyssey",
+            "price": 197.88,
+            "score": 100,
+            "publisher": "Square-enix",
+            "pub_date": "12/12/12",
+            "cover": "super-mario-odyssey.png",
+            "summary": "100 super-mario-odyssey 197.88 Square-enix 12/12/12",
+            "genre": "ACT"
+        }
+    },
+    {
+        "model": "inventory.Game",
+        "ok": 2,
+        "fields": {
+            "name": "Call Of Duty Infinite Warfare",
+            "price": 49.99,
+            "score": 80,
+            "publisher": "Square-enix",
+            "pub_date": "12/12/12",
+            "cover": "call-of-duty-infinite-warfare.png",
+            "summary": "100 call-of-duty-infinite-warfare super-mario-odyssey 197.88 Square-enix 12/12/12",
+            "genre": "ACT"
+        }
+    },
+    {
+        "model": "inventory.Game",
+        "ok": 3,
+        "fields": {
+            "name": "The Witcher III Wild Hunt",
+            "price": 119.50,
+            "score": 250,
+            "publisher": "Square-enix",
+            "pub_date": "12/12/12",
+            "cover": "the-witcher-iii-wild-hunt.png",
+            "summary": "100 call-of-duty-infinite-warfare the-witcher-iii-wild-hunt Square-enix 12/12/12",
+            "genre": "ACT"
+        }
+    }
+]
